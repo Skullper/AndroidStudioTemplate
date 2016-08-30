@@ -1,0 +1,15 @@
+package ${packageName}.fragment.presentation.presenter;
+
+import ${packageName}.fragment.presentation.view.${viewName};
+
+public class ${presenterName} extends BasePresenter<${viewName}> {
+
+    public ${presenterName}(${viewName} view) {
+	super(view);
+        this.view = view;
+    }
+
+    @Override
+    public void init(){
+    }
+}

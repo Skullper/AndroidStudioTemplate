@@ -1,0 +1,38 @@
+<#if !(perModuleRepositories??) || perModuleRepositories>
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:${gradlePluginVersion}'
+    }
+}
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+</#if>
+
+apply plugin: 'com.android.application'
+
+android {
+
+    defaultConfig {
+        applicationId "${packageName}"
+	<#if useMultiDex>
+	multiDexEnabled true
+	</#if>
+    }
+}
+
+dependencies {
+    <#if dependencyList?? >
+    <#list dependencyList as dependency>
+    compile '${dependency}'
+	//apt 'com.jakewharton:butterknife-compiler:8.2.1'
+	//classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+	//apply plugin: 'com.neenbedankt.android-apt'
+    </#list>
+    </#if>
+}

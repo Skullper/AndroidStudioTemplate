@@ -1,0 +1,78 @@
+package ${packageName}.ui.activity;
+
+import ${superClassFqcn};
+import android.os.Bundle;
+import android.app.ProgressDialog;
+import android.view.MenuItem;
+
+import android.view.inputmethod.InputMethodManager;
+import ${packageName}.presentation.view.${viewName};
+import ${packageName}.presentation.presenter.${presenterName};
+
+public abstract class ${activityClass}<T extends ${presenterName}> extends ${superClass} implements ${viewName}{
+
+    protected ProgressDialog progressDialog;
+    protected T presenter;
+
+	protected abstract T createPresenter();
+
+	protected abstract int getLayoutId();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getLayoutId());
+	presenter = createPresenter();
+        findViews();
+        presenter.init();
+    }
+
+@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                closeKeyboard();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+protected void findViews() {
+    }
+
+    @Override
+    public void showProgress() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (progressDialog == null) {
+                    progressDialog = new ProgressDialog(${activityClass}.this);
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void hideProgress() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                }
+            }
+        });
+    }
+
+protected void closeKeyboard() {
+        if (getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+}

@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<template
+    format="5"
+    revision="2"
+    name="Base Arch"
+    minApi="16"
+    minBuildApi="16"
+    description="Creates a new MVP base activity.">
+
+    <category value="Activity" />
+    <formfactor value="Mobile" />
+
+    <parameter
+		id="classApplication"
+		name="Class extends Application"
+		type="string"
+		constraints="nonempty|class"
+		default="ApplicationWrapper"
+		help="The name of class that extends from Application" />
+
+    <parameter
+        id="useMultiDex"
+        name="Use multiDex"
+        type="boolean"
+        default="false"
+        help="If true, the applicationWrapper will be extended from MultiDexApplication" />
+
+    <parameter
+        id="activityClass"
+        name="Activity Name"
+        type="string"
+        constraints="class|unique|nonempty"
+        default="BaseActivity"
+        help="The name of the base activity class to create" />
+
+    <parameter
+        id="className"
+        name="Fragment Name"
+        type="string"
+        constraints="class|nonempty|unique"
+        default="BaseFragment"
+        help="The name of the fragment class to create" />
+
+    <parameter
+        id="viewName"
+        name="View Name"
+        type="string"
+        constraints="class|nonempty|unique"
+        default="BaseView"
+        visibility="true"
+        suggest="${underscoreToCamelCase(classToResource(activityClass))}View"
+        help="The name of the View interface to create" />
+
+    <parameter
+        id="presenterName"
+        name="Presenter Name"
+        type="string"
+        constraints="class|nonempty|unique"
+        default="BasePresenter"
+        visibility="true"
+        suggest="${underscoreToCamelCase(classToResource(activityClass))}Presenter"
+        help="The name of the Presenter interface to create" />
+
+	<parameter
+		id="butterKnifeVer"
+		name="Butter Knife Version"
+		type="string"
+		constraints="nonempty|unique"
+        default="8.2.1"
+        visibility="true"
+        help="The current version of ButterKnife" />
+
+	<parameter
+		id="butterKnifeAptVer"
+		name="Butter Knife Apt Version"
+		type="string"
+		constraints="nonempty|unique"
+        default="8.2.1"
+		suggest="${butterKnifeVer}"
+        visibility="true"
+        help="The current version of ButterKnife apt plugin" />
+
+	<parameter
+		id="butterKnifeClassPathVer"
+		name="Butter Knife ClassPath Version"
+		type="string"
+		constraints="nonempty|unique"
+        default="1.8"
+        visibility="true"
+        help="The current version of ButterKnife classpath" />
+
+	<parameter
+		id="isProblemReaded"
+		name="Problem with butterKnife dependency implementation"
+		type="string"
+		constraints="nonempty|unique"
+        default=""
+        visibility="true"
+        help="In this template apt dependency, classpath and apt-plugin of butterKnife cannot be implemented automatically. That's why you need to do this by yourself. 
+		Dependencies for adding will in opened BaseView file. Please, type some char if you understand." />
+
+    <parameter
+        id="packageName"
+        name="Package name"
+        type="string"
+        constraints="package"
+        default="com.a2.lab" />
+
+    <!-- 128x128 thumbnails relative to template.xml -->
+    <thumbs>
+        <!-- default thumbnail is required -->
+        <thumb>template_blank_activity.png</thumb>
+    </thumbs>
+
+    <globals file="globals.xml.ftl" />
+    <execute file="recipe.xml.ftl" />
+
+</template>
